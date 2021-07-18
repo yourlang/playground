@@ -75,6 +75,7 @@ TT_PLUS = 'PLUS'
 TT_MINUS = 'MINUS'
 TT_MUL = 'MUL'
 TT_DIV = 'DIV'
+TT_POW = 'POW'
 TT_LPAREN = 'LPAREN'
 TT_RPAREN = 'RPAREN'
 TT_EOF = 'EOF'
@@ -129,8 +130,12 @@ class Lexer:
                 tokens.append(Token(TT_MINUS, pos_start=self.pos))
                 self.advance()
             elif self.current_char == '*':
-                tokens.append(Token(TT_MUL, pos_start=self.pos))
                 self.advance()
+                if self.current_char == '*':
+                    tokens.append(Token(TT_POW, pos_start=self.pos))
+                    self.advance()
+                else:
+                    tokens.append(Token(TT_MUL, pos_start=self.pos))
             elif self.current_char == '/':
                 tokens.append(Token(TT_DIV, pos_start=self.pos))
                 self.advance()
@@ -242,13 +247,13 @@ class Parser:
         return self.current_tok
 
     def parse(self):
-        res = self.expr()
+        res = self.special()
         if not res.error and self.current_tok.type != TT_EOF:
             return res.failure(
                 InvalidSyntaxError(
                     self.current_tok.pos_start,
                     self.current_tok.pos_end,
-                    "Expected '+', '-', '*' or '/'"
+                    "Expected '+', '-', '*', '/' or '**'"
                 )
             )
         return res
@@ -268,12 +273,12 @@ class Parser:
             return res.success(NumberNode(tok))
         elif tok.type == TT_LPAREN:
             res.register(self.advance())
-            expr = res.register(self.expr())
+            special = res.register(self.special())
             if res.error:
                 return res
             if self.current_tok.type == TT_RPAREN:
                 res.register(self.advance())
-                return res.success(expr)
+                return res.success(special)
             else:
                 return res.failure(
                     InvalidSyntaxError(
@@ -306,6 +311,9 @@ class Parser:
 
     def expr(self):
         return self.bin_op(self.term, (TT_PLUS, TT_MINUS))
+
+    def special(self):
+        return self.bin_op(self.expr, (TT_POW,))
 
 
 class RTResult:
@@ -361,6 +369,10 @@ class Number:
                 return None, RTError(other.pos_start, other.pos_end, 'Division by Zero', self.context)
             return Number(self.value / other.value).set_context(self.context), None
 
+    def powed_by(self, other):
+        if isinstance(other, Number):
+            return Number(self.value ** other.value).set_context(self.context), None
+
     def __repr__(self):
         return str(self.value)
 
@@ -401,6 +413,8 @@ class Interpreter:
             result, error = left.multed_by(right)
         elif node.op_tok.type == TT_DIV:
             result, error = left.dived_by(right)
+        elif node.op_tok.type == TT_POW:
+            result, error = left.powed_by(right)
 
         if error:
             return res.failure(error)
