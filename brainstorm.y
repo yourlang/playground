@@ -8,6 +8,7 @@ $
 {}
 \
 ;
+?
 
 always one blank line at the start of a block and the end of it (tip)
 
