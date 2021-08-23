@@ -342,13 +342,16 @@ fibonacci[n] = 1 if n in [1, 2] else fibonacci[n-1] + fibonacci[n-2]
 
 say $(fibonacci[..6])
 
+decorator task func(*args)
+    
+    ...  # ?
 
-task: start some_task()
-end some_task()
-end task
+say_hello: task say hello
+say_hello.begin()
+say_hello.end()
 
 
-wait task
+wait say_hello
 wait a = b
 
 
