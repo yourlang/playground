@@ -17,20 +17,20 @@ always one blank line at the start of a block and the end of it (tip)
 
 
 
-cmd ls dir
+cmd ls dir:
 
 	dir: f"$dir"
-	for child in dir.children
+	for child in dir.children:
 	
-		if child.is_file
+		if child.is_file:
 		
 			say f- $child
 			
-		else if child.is_dir
+		else if child.is_dir:
 		
 			say d- $child
 			
-		else if child.is_link
+		else if child.is_link:
 		
 			say l- $child
 			
@@ -41,11 +41,11 @@ ls .
 
 dirs = ls .  # prints on every request of "dirs" if "dir.children" changes
 
-def maximum_wealth(an_array)  # always execute, no :
+def maximum_wealth(an_array):
 
 	return max(reduce(sum, an_array))
 
-def cached maximum_wealth(an_array)  # not always execute, but be smart to know when is needed to execute
+def cached maximum_wealth(an_array):  # not always execute, but be smart to know when is needed to execute
 
 	...  # TODO like, tupi advises about
 
@@ -60,7 +60,7 @@ maximum_wealth(an_array) = (reduce(sum) & max)(an_array)  # register an_array to
 Foo: object()  # prototypes, not classes
 	def .bar
 
-def foo()
+def foo():
 
 	return Object @ Foo  # instantiate from objects, not classes
 
@@ -68,7 +68,7 @@ foo_instance: foo()
 
 
 
-new Foo  # write as a class, syntatic sugar
+new Foo:  # write as a class, syntatic sugar
 
 	def bar
 
@@ -76,37 +76,37 @@ foo_instance: foo()
 
 
 
-new Foo
+new Foo:
 
 	bar(x) = null  # cached function, less memory usage
 
 # check instance
-if some_object is a Foo
+if some_object is a Foo:
 
 	...
 
 
 i36 var: 4
-def i36 func(i36 arg)
+def i36 func(i36 arg):
 
 	return arg
 
 # typing?
 
 
-new Bar @ Foo  # Bar: Object @ Foo
+new Bar @ Foo:  # Bar: Object @ Foo
 
-	def some_func(a, .b, c:10, *e)  # say where you want to store everywhere (self.b = b), default argument value, star expression
+	def some_func(a, .b, c:10, *e):  # say where you want to store everywhere (self.b = b), default argument value, star expression
 	
 		say something $a
 	
-	def func_to_func(func_to_use)
+	def func_to_func(func_to_use):
 	
 		func_to_use(3, 4)
 	
-	def bar(x)
+	def bar(x):
 	
-		if .b = x  # reference with dots and identation
+		if .b = x:  # reference with dots and identation
 		
 			@.bar(x)  # super().bar(x)
 
@@ -229,26 +229,26 @@ use_func((x): 3 + x)
 
 var = 'pré-histórico'
 var = 'pré-' + x  # registered
-try  # no :
+try:
 
 	say $x  # say("{x}")
 	# or also
 	say $(x)
 	
-if get ResultError  # except
+if get ResultError:  # except
 
 	say there is no x
 
-always  # finally  (or but always?)
+always:  # finally  (or but always?)
 
 	...
 
 var = 'pré-histórico'
-if var = 'pré-' + x  # not registering
+if var = 'pré-' + x:  # not registering
 
 	say there is an x: $x
 	
-else
+else:
 
 	say there is no x
 
@@ -257,32 +257,32 @@ else
 
 # the elipsed variable is the first of the line or the elipsed of the statement above
 
-if a = 3  # EQUAL as EQUAL sign
+if a = 3:  # EQUAL as EQUAL sign
 
 	...
 	
-else if <= 4 and =/= 5 # statement elipse, NOT EQUAL as NOT EQUAL sign
+else if <= 4 and =/= 5: # statement elipse, NOT EQUAL as NOT EQUAL sign
 
 	...
 	
-else if ~= 4 * var_to_use544  # aproximately equal, round numbers and check normalized strings, if the minor is on the major one
+else if ~= 4 * var_to_use:  # aproximately equal, round numbers and check normalized strings, if the minor is on the major one
 
 	...
 	
-else
+else:
 
 	...  # if there is a comment, is a TODO, else, is a pass
 
 
-when a = 3  # watch "a" variable and if the statement is true, run the code
+when a = 3:  # watch "a" variable and if the statement is true, run the code
 
 	say something
 
-when a = new_a  # as "new_a" is not defined, this is always true. Will be ran at every assign (of different value) such as "a: Null"
+when a = new_a:  # as "new_a" is not defined, this is always true. Will be ran at every assign (of different value) such as "a: Null"
 
 	say a is now $new_a
 
-for each a  # for each possible result of "a" variable
+for each a:  # for each possible result of "a" variable
 
 	...
 
@@ -342,7 +342,7 @@ fibonacci[n] = 1 if n in [1, 2] else fibonacci[n-1] + fibonacci[n-2]
 
 say $(fibonacci[..6])
 
-decorator task func(*args)
+decorator task func(*args):0
     
     ...  # ?
 
